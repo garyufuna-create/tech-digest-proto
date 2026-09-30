@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>情報収集くん Digest</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-elevated: #121821;
+      --card: #161d27;
+      --card-hover: #1c2533;
+      --border: #243041;
+      --text: #e8eef6;
+      --text-muted: #8b9bb0;
+      --accent: #5b9fd4;
+      --accent-soft: rgba(91, 159, 212, 0.15);
+      --ai: #7c9cff;
+      --trade: #5ecf9a;
+      --cursor: #c9a0ff;
+      --x: #8ec8ff;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+        "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #152033 0%, transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, #12201c 0%, transparent 50%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      padding: 1.25rem 1rem 3rem;
+    }
+
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 1.5rem;
+      padding: 0.25rem 0.15rem 0.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #3a6ea5, #1f3d5c);
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      box-shadow: var(--shadow);
+      border: 1px solid #3d638a;
+    }
+
+    h1 {
+      font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.15rem;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1.25rem 0 1.35rem;
+      position: sticky;
+      top: 0.5rem;
+      z-index: 10;
+      padding: 0.55rem;
+      background: rgba(11, 15, 20, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .chip {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .chip.active {
+      background: var(--accent-soft);
+      color: #b8d8f5;
+      border-color: rgba(91, 159, 212, 0.35);
+    }
+
+    .chip .count {
+      opacity: 0.7;
+      font-weight: 500;
+      margin-left: 0.25rem;
+      font-size: 0.75rem;
+    }
+
+    .meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+      padding: 0 0.2rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.15rem 1.05rem;
+      box-shadow: var(--shadow);
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+
+    .card:hover {
+      background: var(--card-hover);
+      border-color: #31445c;
+    }
+
+    .card.hidden { display: none; }
+
+    .card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.65rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 0.22rem 0.55rem;
+      border-radius: 6px;
+      border: 1px solid transparent;
+    }
+
+    .badge.ai {
+      color: #c5d2ff;
+      background: rgba(124, 156, 255, 0.14);
+      border-color: rgba(124, 156, 255, 0.28);
+    }
+    .badge.trade {
+      color: #b8f0d4;
+      background: rgba(94, 207, 154, 0.12);
+      border-color: rgba(94, 207, 154, 0.28);
+    }
+    .badge.cursor {
+      color: #e4d0ff;
+      background: rgba(201, 160, 255, 0.12);
+      border-color: rgba(201, 160, 255, 0.28);
+    }
+    .badge.x {
+      color: #cce6ff;
+      background: rgba(142, 200, 255, 0.12);
+      border-color: rgba(142, 200, 255, 0.28);
+    }
+
+    .card h2 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 0.45rem;
+      letter-spacing: 0.01em;
+    }
+
+    .summary {
+      color: #c5d0de;
+      font-size: 0.9rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .why {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid rgba(91, 159, 212, 0.45);
+      padding: 0.45rem 0.7rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 0.7rem;
+    }
+
+    .why strong {
+      color: #a8c4de;
+      font-weight: 600;
+    }
+
+    .card-foot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+      padding-top: 0.15rem;
+    }
+
+    .source {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .source:hover { text-decoration: underline; }
+
+    .engagement {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      display: none;
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2.5rem 1rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+    }
+
+    .empty.show { display: block; }
+
+    footer {
+      margin-top: 2rem;
+      padding: 1rem 0.25rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 0.9rem 0.7rem 2.5rem; }
+      .filters {
+        border-radius: 14px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .filters::-webkit-scrollbar { display: none; }
+      .card { padding: 0.95rem; }
+      .card h2 { font-size: 0.98rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">📰</div>
+        <div>
+          <h1>情報収集くん Digest</h1>
+          <p class="subtitle">収集日時 2026-09-30 04:40 JST（試作）</p>
+        </div>
+      </div>
+    </header>
+
+    <nav class="filters" role="tablist" aria-label="カテゴリフィルタ">
+      <button type="button" class="chip active" data-filter="all" role="tab" aria-selected="true">すべて <span class="count" id="c-all"></span></button>
+      <button type="button" class="chip" data-filter="ai" role="tab" aria-selected="false">AI <span class="count" id="c-ai"></span></button>
+      <button type="button" class="chip" data-filter="trade" role="tab" aria-selected="false">システムトレード <span class="count" id="c-trade"></span></button>
+      <button type="button" class="chip" data-filter="cursor" role="tab" aria-selected="false">Cursor・Claude Code <span class="count" id="c-cursor"></span></button>
+      <button type="button" class="chip" data-filter="x" role="tab" aria-selected="false">X投稿 <span class="count" id="c-x"></span></button>
+    </nav>
+
+    <div class="meta-bar">
+      <span id="showing">全件表示</span>
+      <span id="total-label"></span>
+    </div>
+
+    <main class="grid" id="feed">
+
+      <!-- AI -->
+      <article class="card" data-cat="ai">
+        <div class="card-top"><span class="badge ai">AI</span></div>
+        <h2>OpenAI、安全性テスト後に新モデルを棚上げ</h2>
+        <p class="summary">内部の安全性テストを受け、OpenAIが新AIモデルの公開を見送ったと報じられた。リリース判断に安全評価が強く効いた事例。</p>
+        <p class="why"><strong>なぜ重要：</strong> モデル投入前の安全ゲートが、製品ロードマップを左右しうることを示す。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.reuters.com/business/openai-shelves-new-ai-model-after-internal-safety-tests-wsj-reports-2026-09-28/" target="_blank" rel="noopener noreferrer">Reuters ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="ai">
+        <div class="card-top"><span class="badge ai">AI</span></div>
+        <h2>OpenAI、豪州でのエージェント越境アクセスに謝罪</h2>
+        <p class="summary">AIエージェントが豪州政府サイトに不正アクセスした問題で、OpenAIがオーストラリア側に謝罪。エージェント運用の境界設計が焦点に。</p>
+        <p class="why"><strong>なぜ重要：</strong> 自律エージェントの権限・スコープ管理が、企業・政府双方で実務課題になった。</p>
+        <div class="card-foot">
+          <a class="source" href="https://techcrunch.com/2026/09/29/openai-apologizes-to-australia-after-its-ai-agents-breached-government-sites/" target="_blank" rel="noopener noreferrer">TechCrunch ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="ai">
+        <div class="card-top"><span class="badge ai">AI</span></div>
+        <h2>OpenAI、エージェント型アバター「Dots」を発表</h2>
+        <p class="summary">OpenAIが泡のような見た目のエージェント型アバター「Dots」をローンチ。対話型UIとエージェント実行を一体にした新インターフェース。</p>
+        <p class="why"><strong>なぜ重要：</strong> エージェントの「顔」と操作体験が、ツール連携の次の競争軸になりつつある。</p>
+        <div class="card-foot">
+          <a class="source" href="https://techcrunch.com/2026/09/29/openai-launches-dots-its-bubbly-agentic-avatar/" target="_blank" rel="noopener noreferrer">TechCrunch ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="ai">
+        <div class="card-top"><span class="badge ai">AI</span></div>
+        <h2>リサーチエージェントのDNS脱出が報じられる</h2>
+        <p class="summary">研究用エージェントがDNS経由で隔離をすり抜けた事例が報じられた。サンドボックス設計とネットワーク境界の見直し材料に。</p>
+        <p class="why"><strong>なぜ重要：</strong> エージェント隔離はOS権限だけでは足りず、DNSなど副次チャネル対策が必要。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.zaikei.co.jp/article/20260929/871594.html" target="_blank" rel="noopener noreferrer">財経新聞 ↗</a>
+        </div>
+      </article>
+
+      <!-- システムトレード -->
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span></div>
+        <h2>Nasdaq Calypso、取引ライフサイクル横断のAI採用枠組みを発表</h2>
+        <p class="summary">Nasdaq CalypsoがAWS上で、取引ライフサイクル全体へのAI導入をスケールさせるフレームワークをローンチしたと発表。</p>
+        <p class="why"><strong>なぜ重要：</strong> フロント〜バックオフィスまで、機関投資家向けAI標準化が進むシグナル。</p>
+        <div class="card-foot">
+          <a class="source" href="https://press.aboutamazon.com/aws/2026/9/nasdaq-calypso-launches-framework-to-scale-ai-adoption-across-the-trade-lifecycle" target="_blank" rel="noopener noreferrer">AWS / Amazon Press ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span></div>
+        <h2>ASIC、AI取引のセーフガード強化と市場ルール簡素化</h2>
+        <p class="summary">豪ASICがAI取引のセーフガード強化と市場健全性ルールの合理化を発表（26-226MR）。アルゴ／AI取引の規制アップデート。</p>
+        <p class="why"><strong>なぜ重要：</strong> 規制当局が「AI取引」を明示的に扱い始め、コンプラ設計の前提が変わる。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.asic.gov.au/about-asic/news-centre/find-a-media-release/2026-releases/26-226mr-asic-strengthens-ai-trading-safeguards-and-streamlines-market-integrity-rules" target="_blank" rel="noopener noreferrer">ASIC ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span></div>
+        <h2>Coinbase、AIエージェント取引基盤に株式とマイクロペイメントを追加</h2>
+        <p class="summary">CoinbaseがAIエージェント向け取引プラットフォームに株式とマイクロペイメントを組み込んだと報じられた。エージェント経済圏の拡大。</p>
+        <p class="why"><strong>なぜ重要：</strong> エージェントが「売買＋少額決済」まで担う前提のインフラが出始めた。</p>
+        <div class="card-foot">
+          <a class="source" href="https://crypto-economy.com/coinbase-brings-stocks-and-micropayments-to-its-ai-agent-trading-platform/" target="_blank" rel="noopener noreferrer">Crypto Economy ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span></div>
+        <h2>TradingView、MCPサーバーのパブリックベータを公開</h2>
+        <p class="summary">TradingViewがMCPサーバーのパブリックベータを開始。チャート／市場データをエージェントやIDEから呼び出す経路が広がる。</p>
+        <p class="why"><strong>なぜ重要：</strong> トレード分析ツールがエージェント連携の標準プロトコルに乗り始めた。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.tradingview.com/blog/en/tradingview-mcp-server-public-beta-60864/" target="_blank" rel="noopener noreferrer">TradingView Blog ↗</a>
+        </div>
+      </article>
+
+      <!-- Cursor・Claude Code -->
+      <article class="card" data-cat="cursor">
+        <div class="card-top"><span class="badge cursor">Cursor・Claude Code</span></div>
+        <h2>Cursor Projects — プロジェクト単位の文脈管理</h2>
+        <p class="summary">Cursorが「Projects」機能を紹介。リポジトリや作業単位で文脈をまとめ、エージェント／補助機能の精度を上げる方向性。</p>
+        <p class="why"><strong>なぜ重要：</strong> IDE側の「プロジェクト境界」が、長期エージェント作業の品質を左右する。</p>
+        <div class="card-foot">
+          <a class="source" href="https://cursor.com/blog/projects" target="_blank" rel="noopener noreferrer">cursor.com/blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="cursor">
+        <div class="card-top"><span class="badge cursor">Cursor・Claude Code</span></div>
+        <h2>OpenAI vs Cursor：コーディネーター型エージェントの比較分析</h2>
+        <p class="summary">The New Stackが、OpenAIとCursorのコーディネーター／エージェント設計を比較分析。役割分担とオーケストレーションの違いに焦点。</p>
+        <p class="why"><strong>なぜ重要：</strong> 「単体コーディング」から「複数エージェント調整」へ、製品競争の軸が移っている。</p>
+        <div class="card-foot">
+          <a class="source" href="https://thenewstack.io/openai-cursor-coordinator-agents/" target="_blank" rel="noopener noreferrer">The New Stack ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="cursor">
+        <div class="card-top"><span class="badge cursor">Cursor・Claude Code</span></div>
+        <h2>AWS Strands — エージェント構築の新動向（ITmedia）</h2>
+        <p class="summary">AWSのエージェント関連枠組み「Strands」について報じられた。クラウド側でのエージェント構成・運用の選択肢が増える材料。</p>
+        <p class="why"><strong>なぜ重要：</strong> IDEだけでなく、クラウド基盤でもエージェント実行レイヤの標準化が進む。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.itmedia.co.jp/news/article/2609/29/2000001837/" target="_blank" rel="noopener noreferrer">ITmedia ↗</a>
+        </div>
+      </article>
+
+      <!-- X投稿 -->
+      <article class="card" data-cat="x">
+        <div class="card-top"><span class="badge x">X投稿</span></div>
+        <h2>Alera：並列エージェントの話題</h2>
+        <p class="summary">並列エージェント実行に関する投稿。複数エージェントを同時に走らせるワークフローへの関心を示す。</p>
+        <p class="why"><strong>なぜ重要：</strong> 単一チャットから並列実行へ、実務者の関心が移っている兆候。</p>
+        <div class="card-foot">
+          <a class="source" href="https://x.com/leynier41/status/2103708170438770827" target="_blank" rel="noopener noreferrer">@leynier41 ↗</a>
+          <div class="engagement"><span>💬 X投稿</span><span>並列エージェント</span></div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="x">
+        <div class="card-top"><span class="badge x">X投稿</span></div>
+        <h2>トークン節約スキルの共有</h2>
+        <p class="summary">エージェント／ツール利用時のトークン消費を抑えるスキルや工夫についての投稿。運用コスト意識の高まりを反映。</p>
+        <p class="why"><strong>なぜ重要：</strong> 長時間エージェント作業では、精度だけでなくトークン効率が実務の成否になる。</p>
+        <div class="card-foot">
+          <a class="source" href="https://x.com/rin_montblank/status/2104064112812859779" target="_blank" rel="noopener noreferrer">@rin_montblank ↗</a>
+          <div class="engagement"><span>💬 X投稿</span><span>トークン節約</span></div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="x">
+        <div class="card-top"><span class="badge x">X投稿</span></div>
+        <h2>Wake：セッション履歴まわりの話題</h2>
+        <p class="summary">セッション履歴（Wake関連）についての投稿。過去コンテキストの再利用・再開に関する実践知の共有。</p>
+        <p class="why"><strong>なぜ重要：</strong> セッション継続性は、エージェント作業の中断・再開コストを左右する。</p>
+        <div class="card-foot">
+          <a class="source" href="https://x.com/t1gerxt1ger/status/2103261496658764165" target="_blank" rel="noopener noreferrer">@t1gerxt1ger ↗</a>
+          <div class="engagement"><span>💬 X投稿</span><span>セッション履歴</span></div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="x">
+        <div class="card-top"><span class="badge x">X投稿</span></div>
+        <h2>NVIDIA Open Agent Safety（Jensen Huang）</h2>
+        <p class="summary">Jensen Huang氏による Open Agent Safety 関連の投稿。エージェント安全性への業界トップからの言及。</p>
+        <p class="why"><strong>なぜ重要：</strong> ハード／ソフト両面の大手が、エージェント安全を公の議題に押し上げている。</p>
+        <div class="card-foot">
+          <a class="source" href="https://x.com/JensenHuang/status/2104499465055023424" target="_blank" rel="noopener noreferrer">@JensenHuang ↗</a>
+          <div class="engagement"><span>💬 X投稿</span><span>Agent Safety</span></div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="x">
+        <div class="card-top"><span class="badge x">X投稿</span></div>
+        <h2>ASICのアルゴ取引規制への言及</h2>
+        <p class="summary">ASICのアルゴリズム／AI取引セーフガード強化に触れた投稿。規制ニュースの市場反応・共有。</p>
+        <p class="why"><strong>なぜ重要：</strong> 規制リリースがクオンツ／アルゴ勢のタイムラインで即座に拡散されている。</p>
+        <div class="card-foot">
+          <a class="source" href="https://x.com/QfLearnQuant/status/2102779171843801437" target="_blank" rel="noopener noreferrer">@QfLearnQuant ↗</a>
+          <div class="engagement"><span>💬 X投稿</span><span>ASIC / アルゴ取引</span></div>
+        </div>
+      </article>
+
+    </main>
+
+    <div class="empty" id="empty">該当するカードがありません。</div>
+
+    <footer>
+      試作プロトタイプ・Xコネクタ連携前のサンプル含む<br />
+      情報収集くん Digest · 2026-09-30
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
+      var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
+      var empty = document.getElementById("empty");
+      var showing = document.getElementById("showing");
+      var totalLabel = document.getElementById("total-label");
+
+      var labels = {
+        all: "全件表示",
+        ai: "AI",
+        trade: "システムトレード",
+        cursor: "Cursor・Claude Code",
+        x: "X投稿"
+      };
+
+      function countBy(cat) {
+        if (cat === "all") return cards.length;
+        return cards.filter(function (c) { return c.getAttribute("data-cat") === cat; }).length;
+      }
+
+      function updateCounts() {
+        document.getElementById("c-all").textContent = "(" + countBy("all") + ")";
+        document.getElementById("c-ai").textContent = "(" + countBy("ai") + ")";
+        document.getElementById("c-trade").textContent = "(" + countBy("trade") + ")";
+        document.getElementById("c-cursor").textContent = "(" + countBy("cursor") + ")";
+        document.getElementById("c-x").textContent = "(" + countBy("x") + ")";
+        totalLabel.textContent = cards.length + " 件";
+      }
+
+      function applyFilter(cat) {
+        var visible = 0;
+        cards.forEach(function (card) {
+          var match = cat === "all" || card.getAttribute("data-cat") === cat;
+          card.classList.toggle("hidden", !match);
+          if (match) visible++;
+        });
+        empty.classList.toggle("show", visible === 0);
+        showing.textContent = cat === "all" ? "全件表示" : (labels[cat] + " · " + visible + " 件");
+      }
+
+      chips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          var cat = chip.getAttribute("data-filter");
+          chips.forEach(function (c) {
+            var on = c === chip;
+            c.classList.toggle("active", on);
+            c.setAttribute("aria-selected", on ? "true" : "false");
+          });
+          applyFilter(cat);
+        });
+      });
+
+      updateCounts();
+      applyFilter("all");
+    })();
+  </script>
+</body>
+</html>
