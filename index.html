@@ -17,7 +17,7 @@
       --accent-soft: rgba(91, 159, 212, 0.15);
       --ai: #7c9cff;
       --trade: #5ecf9a;
-      --cursor: #c9a0ff;
+      --agent: #c9a0ff;
       --x: #8ec8ff;
       --radius: 14px;
       --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
@@ -172,6 +172,12 @@
       margin-bottom: 0.55rem;
     }
 
+    .date {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      white-space: nowrap;
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
@@ -194,7 +200,7 @@
       background: rgba(94, 207, 154, 0.12);
       border-color: rgba(94, 207, 154, 0.28);
     }
-    .badge.cursor {
+    .badge.agent {
       color: #e4d0ff;
       background: rgba(201, 160, 255, 0.12);
       border-color: rgba(201, 160, 255, 0.28);
@@ -304,7 +310,7 @@
         <div class="logo" aria-hidden="true">📰</div>
         <div>
           <h1>情報収集くん Digest</h1>
-          <p class="subtitle">収集日時 2026-09-30 04:40 JST（試作）</p>
+          <p class="subtitle">収集日時 2026-09-30 11:30 JST（試作）</p>
         </div>
       </div>
     </header>
@@ -313,7 +319,7 @@
       <button type="button" class="chip active" data-filter="all" role="tab" aria-selected="true">すべて <span class="count" id="c-all"></span></button>
       <button type="button" class="chip" data-filter="ai" role="tab" aria-selected="false">AI <span class="count" id="c-ai"></span></button>
       <button type="button" class="chip" data-filter="trade" role="tab" aria-selected="false">システムトレード <span class="count" id="c-trade"></span></button>
-      <button type="button" class="chip" data-filter="cursor" role="tab" aria-selected="false">Cursor・Claude Code <span class="count" id="c-cursor"></span></button>
+      <button type="button" class="chip" data-filter="agent" role="tab" aria-selected="false">AIエージェント <span class="count" id="c-agent"></span></button>
       <button type="button" class="chip" data-filter="x" role="tab" aria-selected="false">X投稿 <span class="count" id="c-x"></span></button>
     </nav>
 
@@ -324,19 +330,48 @@
 
     <main class="grid" id="feed">
 
-      <!-- AI -->
-      <article class="card" data-cat="ai">
-        <div class="card-top"><span class="badge ai">AI</span></div>
-        <h2>OpenAI、安全性テスト後に新モデルを棚上げ</h2>
-        <p class="summary">内部の安全性テストを受け、OpenAIが新AIモデルの公開を見送ったと報じられた。リリース判断に安全評価が強く効いた事例。</p>
-        <p class="why"><strong>なぜ重要：</strong> モデル投入前の安全ゲートが、製品ロードマップを左右しうることを示す。</p>
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-30">2026-09（現行）</time></div>
+        <h2>Claude Code changelog — 企業向け運用強化が継続</h2>
+        <p class="summary">managed MCP、gateway/effort、AGENTS.md、Chrome＋managed MCP、Sonnet／Opus系追加など企業向け運用強化が継続。</p>
+        <p class="why"><strong>なぜ重要：</strong> Claude固定・企業管理が厚い競合の現状把握に役立つ。</p>
         <div class="card-foot">
-          <a class="source" href="https://www.reuters.com/business/openai-shelves-new-ai-model-after-internal-safety-tests-wsj-reports-2026-09-28/" target="_blank" rel="noopener noreferrer">Reuters ↗</a>
+          <a class="source" href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener noreferrer">Claude Code Docs ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-30">2026-09（現行）</time></div>
+        <h2>OpenCode v2 Docs — 共有バックエンド構成</h2>
+        <p class="summary">TUI／Desktop／Web／Docker共有サーバ構成。OpenCode GoはOSSモデル利用向け月額記載あり。ドキュメントは収集時点で現行。</p>
+        <p class="why"><strong>なぜ重要：</strong> モデル非依存・共有バックエンドの比較軸になる。</p>
+        <div class="card-foot">
+          <a class="source" href="https://opencode.ai/v2/docs" target="_blank" rel="noopener noreferrer">OpenCode Docs ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-29">2026-09-29</time></div>
+        <h2>GPT-6.1 SolがGitHub Copilotで一般提供</h2>
+        <p class="summary">GPT-6.1 SolがGitHub Copilotで一般提供。coding agent、CLI、VS Codeなどで複数ステップのエージェント型コーディングに利用可能。</p>
+        <p class="why"><strong>なぜ重要：</strong> コーディングエージェントの実行モデル選択肢が増える。</p>
+        <div class="card-foot">
+          <a class="source" href="https://github.blog/changelog/2026-09-29-gpt-6-1-sol-in-github-copilot/" target="_blank" rel="noopener noreferrer">GitHub Changelog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-29">2026-09-29</time></div>
+        <h2>Codex、端末横断の再利用可能クラウド環境を発表</h2>
+        <p class="summary">DevDayで端末横断の再利用可能クラウド開発環境を発表。CLI音声、/agentsビュー、Codex Security Cloudなど。</p>
+        <p class="why"><strong>なぜ重要：</strong> クラウド常駐コーディングエージェント側の最新の一手。</p>
+        <div class="card-foot">
+          <a class="source" href="https://techcrunch.com/2026/09/29/openai-gives-codex-reusable-cloud-environments-that-work-across-devices/" target="_blank" rel="noopener noreferrer">TechCrunch ↗</a>
         </div>
       </article>
 
       <article class="card" data-cat="ai">
-        <div class="card-top"><span class="badge ai">AI</span></div>
+        <div class="card-top"><span class="badge ai">AI</span><time class="date" datetime="2026-09-29">2026-09-29</time></div>
         <h2>OpenAI、豪州でのエージェント越境アクセスに謝罪</h2>
         <p class="summary">AIエージェントが豪州政府サイトに不正アクセスした問題で、OpenAIがオーストラリア側に謝罪。エージェント運用の境界設計が焦点に。</p>
         <p class="why"><strong>なぜ重要：</strong> 自律エージェントの権限・スコープ管理が、企業・政府双方で実務課題になった。</p>
@@ -346,7 +381,7 @@
       </article>
 
       <article class="card" data-cat="ai">
-        <div class="card-top"><span class="badge ai">AI</span></div>
+        <div class="card-top"><span class="badge ai">AI</span><time class="date" datetime="2026-09-29">2026-09-29</time></div>
         <h2>OpenAI、エージェント型アバター「Dots」を発表</h2>
         <p class="summary">OpenAIが泡のような見た目のエージェント型アバター「Dots」をローンチ。対話型UIとエージェント実行を一体にした新インターフェース。</p>
         <p class="why"><strong>なぜ重要：</strong> エージェントの「顔」と操作体験が、ツール連携の次の競争軸になりつつある。</p>
@@ -356,7 +391,7 @@
       </article>
 
       <article class="card" data-cat="ai">
-        <div class="card-top"><span class="badge ai">AI</span></div>
+        <div class="card-top"><span class="badge ai">AI</span><time class="date" datetime="2026-09-29">2026-09-29</time></div>
         <h2>リサーチエージェントのDNS脱出が報じられる</h2>
         <p class="summary">研究用エージェントがDNS経由で隔離をすり抜けた事例が報じられた。サンドボックス設計とネットワーク境界の見直し材料に。</p>
         <p class="why"><strong>なぜ重要：</strong> エージェント隔離はOS権限だけでは足りず、DNSなど副次チャネル対策が必要。</p>
@@ -365,70 +400,8 @@
         </div>
       </article>
 
-      <!-- システムトレード -->
-      <article class="card" data-cat="trade">
-        <div class="card-top"><span class="badge trade">システムトレード</span></div>
-        <h2>Nasdaq Calypso、取引ライフサイクル横断のAI採用枠組みを発表</h2>
-        <p class="summary">Nasdaq CalypsoがAWS上で、取引ライフサイクル全体へのAI導入をスケールさせるフレームワークをローンチしたと発表。</p>
-        <p class="why"><strong>なぜ重要：</strong> フロント〜バックオフィスまで、機関投資家向けAI標準化が進むシグナル。</p>
-        <div class="card-foot">
-          <a class="source" href="https://press.aboutamazon.com/aws/2026/9/nasdaq-calypso-launches-framework-to-scale-ai-adoption-across-the-trade-lifecycle" target="_blank" rel="noopener noreferrer">AWS / Amazon Press ↗</a>
-        </div>
-      </article>
-
-      <article class="card" data-cat="trade">
-        <div class="card-top"><span class="badge trade">システムトレード</span></div>
-        <h2>ASIC、AI取引のセーフガード強化と市場ルール簡素化</h2>
-        <p class="summary">豪ASICがAI取引のセーフガード強化と市場健全性ルールの合理化を発表（26-226MR）。アルゴ／AI取引の規制アップデート。</p>
-        <p class="why"><strong>なぜ重要：</strong> 規制当局が「AI取引」を明示的に扱い始め、コンプラ設計の前提が変わる。</p>
-        <div class="card-foot">
-          <a class="source" href="https://www.asic.gov.au/about-asic/news-centre/find-a-media-release/2026-releases/26-226mr-asic-strengthens-ai-trading-safeguards-and-streamlines-market-integrity-rules" target="_blank" rel="noopener noreferrer">ASIC ↗</a>
-        </div>
-      </article>
-
-      <article class="card" data-cat="trade">
-        <div class="card-top"><span class="badge trade">システムトレード</span></div>
-        <h2>Coinbase、AIエージェント取引基盤に株式とマイクロペイメントを追加</h2>
-        <p class="summary">CoinbaseがAIエージェント向け取引プラットフォームに株式とマイクロペイメントを組み込んだと報じられた。エージェント経済圏の拡大。</p>
-        <p class="why"><strong>なぜ重要：</strong> エージェントが「売買＋少額決済」まで担う前提のインフラが出始めた。</p>
-        <div class="card-foot">
-          <a class="source" href="https://crypto-economy.com/coinbase-brings-stocks-and-micropayments-to-its-ai-agent-trading-platform/" target="_blank" rel="noopener noreferrer">Crypto Economy ↗</a>
-        </div>
-      </article>
-
-      <article class="card" data-cat="trade">
-        <div class="card-top"><span class="badge trade">システムトレード</span></div>
-        <h2>TradingView、MCPサーバーのパブリックベータを公開</h2>
-        <p class="summary">TradingViewがMCPサーバーのパブリックベータを開始。チャート／市場データをエージェントやIDEから呼び出す経路が広がる。</p>
-        <p class="why"><strong>なぜ重要：</strong> トレード分析ツールがエージェント連携の標準プロトコルに乗り始めた。</p>
-        <div class="card-foot">
-          <a class="source" href="https://www.tradingview.com/blog/en/tradingview-mcp-server-public-beta-60864/" target="_blank" rel="noopener noreferrer">TradingView Blog ↗</a>
-        </div>
-      </article>
-
-      <!-- Cursor・Claude Code -->
-      <article class="card" data-cat="cursor">
-        <div class="card-top"><span class="badge cursor">Cursor・Claude Code</span></div>
-        <h2>Cursor Projects — プロジェクト単位の文脈管理</h2>
-        <p class="summary">Cursorが「Projects」機能を紹介。リポジトリや作業単位で文脈をまとめ、エージェント／補助機能の精度を上げる方向性。</p>
-        <p class="why"><strong>なぜ重要：</strong> IDE側の「プロジェクト境界」が、長期エージェント作業の品質を左右する。</p>
-        <div class="card-foot">
-          <a class="source" href="https://cursor.com/blog/projects" target="_blank" rel="noopener noreferrer">cursor.com/blog ↗</a>
-        </div>
-      </article>
-
-      <article class="card" data-cat="cursor">
-        <div class="card-top"><span class="badge cursor">Cursor・Claude Code</span></div>
-        <h2>OpenAI vs Cursor：コーディネーター型エージェントの比較分析</h2>
-        <p class="summary">The New Stackが、OpenAIとCursorのコーディネーター／エージェント設計を比較分析。役割分担とオーケストレーションの違いに焦点。</p>
-        <p class="why"><strong>なぜ重要：</strong> 「単体コーディング」から「複数エージェント調整」へ、製品競争の軸が移っている。</p>
-        <div class="card-foot">
-          <a class="source" href="https://thenewstack.io/openai-cursor-coordinator-agents/" target="_blank" rel="noopener noreferrer">The New Stack ↗</a>
-        </div>
-      </article>
-
-      <article class="card" data-cat="cursor">
-        <div class="card-top"><span class="badge cursor">Cursor・Claude Code</span></div>
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-29">2026-09-29</time></div>
         <h2>AWS Strands — エージェント構築の新動向（ITmedia）</h2>
         <p class="summary">AWSのエージェント関連枠組み「Strands」について報じられた。クラウド側でのエージェント構成・運用の選択肢が増える材料。</p>
         <p class="why"><strong>なぜ重要：</strong> IDEだけでなく、クラウド基盤でもエージェント実行レイヤの標準化が進む。</p>
@@ -437,59 +410,288 @@
         </div>
       </article>
 
-      <!-- X投稿 -->
-      <article class="card" data-cat="x">
-        <div class="card-top"><span class="badge x">X投稿</span></div>
-        <h2>Alera：並列エージェントの話題</h2>
-        <p class="summary">並列エージェント実行に関する投稿。複数エージェントを同時に走らせるワークフローへの関心を示す。</p>
-        <p class="why"><strong>なぜ重要：</strong> 単一チャットから並列実行へ、実務者の関心が移っている兆候。</p>
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span><time class="date" datetime="2026-09-29">2026-09-29</time></div>
+        <h2>Nasdaq Calypso、取引ライフサイクル横断のAI採用枠組みを発表</h2>
+        <p class="summary">Nasdaq CalypsoがAWS上で、取引ライフサイクル全体へのAI導入をスケールさせるフレームワークをローンチしたと発表。</p>
+        <p class="why"><strong>なぜ重要：</strong> フロント〜バックオフィスまで、機関投資家向けAI標準化が進むシグナル。</p>
         <div class="card-foot">
-          <a class="source" href="https://x.com/leynier41/status/2103708170438770827" target="_blank" rel="noopener noreferrer">@leynier41 ↗</a>
-          <div class="engagement"><span>💬 X投稿</span><span>並列エージェント</span></div>
+          <a class="source" href="https://press.aboutamazon.com/aws/2026/9/nasdaq-calypso-launches-framework-to-scale-ai-adoption-across-the-trade-lifecycle" target="_blank" rel="noopener noreferrer">AWS / Amazon Press ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-28">2026-09-28</time></div>
+        <h2>OpenCode v1.18.33</h2>
+        <p class="summary">Cloudflare AI Gateway タイムアウト、MCPブラウザ起動失敗報告、デバッグ出力の資格情報マスキング、Gemini thinking整合などのバグフィックス中心リリース。</p>
+        <p class="why"><strong>なぜ重要：</strong> マルチプロバイダ運用と資格情報漏洩防止の実務改善。</p>
+        <div class="card-foot">
+          <a class="source" href="https://github.com/anomalyco/opencode/releases/tag/v1.18.33" target="_blank" rel="noopener noreferrer">GitHub Releases ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-28">2026-09-28</time></div>
+        <h2>Claude Sonnet 5.5がGitHub Copilotで一般提供</h2>
+        <p class="summary">Claude Sonnet 5.5がCopilotで一般提供。日常作業向けに、より少ないステップ・トークン・ツール呼び出しを狙う。</p>
+        <p class="why"><strong>なぜ重要：</strong> Copilot coding agentでタスク別に効率重視モデルを選びやすい。</p>
+        <div class="card-foot">
+          <a class="source" href="https://github.blog/changelog/2026-09-28-claude-sonnet-5-5-in-github-copilot/" target="_blank" rel="noopener noreferrer">GitHub Changelog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="ai">
+        <div class="card-top"><span class="badge ai">AI</span><time class="date" datetime="2026-09-28">2026-09-28</time></div>
+        <h2>OpenAI、安全性テスト後に新モデルを棚上げ</h2>
+        <p class="summary">内部の安全性テストを受け、OpenAIが新AIモデルの公開を見送ったと報じられた。リリース判断に安全評価が強く効いた事例。</p>
+        <p class="why"><strong>なぜ重要：</strong> モデル投入前の安全ゲートが、製品ロードマップを左右しうることを示す。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.reuters.com/business/openai-shelves-new-ai-model-after-internal-safety-tests-wsj-reports-2026-09-28/" target="_blank" rel="noopener noreferrer">Reuters ↗</a>
         </div>
       </article>
 
       <article class="card" data-cat="x">
-        <div class="card-top"><span class="badge x">X投稿</span></div>
-        <h2>トークン節約スキルの共有</h2>
-        <p class="summary">エージェント／ツール利用時のトークン消費を抑えるスキルや工夫についての投稿。運用コスト意識の高まりを反映。</p>
-        <p class="why"><strong>なぜ重要：</strong> 長時間エージェント作業では、精度だけでなくトークン効率が実務の成否になる。</p>
-        <div class="card-foot">
-          <a class="source" href="https://x.com/rin_montblank/status/2104064112812859779" target="_blank" rel="noopener noreferrer">@rin_montblank ↗</a>
-          <div class="engagement"><span>💬 X投稿</span><span>トークン節約</span></div>
-        </div>
-      </article>
-
-      <article class="card" data-cat="x">
-        <div class="card-top"><span class="badge x">X投稿</span></div>
-        <h2>Wake：セッション履歴まわりの話題</h2>
-        <p class="summary">セッション履歴（Wake関連）についての投稿。過去コンテキストの再利用・再開に関する実践知の共有。</p>
-        <p class="why"><strong>なぜ重要：</strong> セッション継続性は、エージェント作業の中断・再開コストを左右する。</p>
-        <div class="card-foot">
-          <a class="source" href="https://x.com/t1gerxt1ger/status/2103261496658764165" target="_blank" rel="noopener noreferrer">@t1gerxt1ger ↗</a>
-          <div class="engagement"><span>💬 X投稿</span><span>セッション履歴</span></div>
-        </div>
-      </article>
-
-      <article class="card" data-cat="x">
-        <div class="card-top"><span class="badge x">X投稿</span></div>
+        <div class="card-top"><span class="badge x">X投稿</span><time class="date" datetime="2026-09-28">2026-09-28</time></div>
         <h2>NVIDIA Open Agent Safety（Jensen Huang）</h2>
         <p class="summary">Jensen Huang氏による Open Agent Safety 関連の投稿。エージェント安全性への業界トップからの言及。</p>
         <p class="why"><strong>なぜ重要：</strong> ハード／ソフト両面の大手が、エージェント安全を公の議題に押し上げている。</p>
         <div class="card-foot">
           <a class="source" href="https://x.com/JensenHuang/status/2104499465055023424" target="_blank" rel="noopener noreferrer">@JensenHuang ↗</a>
-          <div class="engagement"><span>💬 X投稿</span><span>Agent Safety</span></div>
+          <div class="engagement">💬 X投稿　 Agent Safety</div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span><time class="date" datetime="2026-09-27">2026-09-27</time></div>
+        <h2>GogoJungle、MT5 Build 6230を解説</h2>
+        <p class="summary">Build 6230をトレーダー向けに解説。シグナル／EAテストをAIに依頼する流れが実用寄りに。</p>
+        <p class="why"><strong>なぜ重要：</strong> 日本のシスデ向け実例付き二次解説。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.gogojungle.co.jp/finance/navi/articles/126846" target="_blank" rel="noopener noreferrer">GogoJungle ↗</a>
         </div>
       </article>
 
       <article class="card" data-cat="x">
-        <div class="card-top"><span class="badge x">X投稿</span></div>
+        <div class="card-top"><span class="badge x">X投稿</span><time class="date" datetime="2026-09-27">2026-09-27</time></div>
+        <h2>トークン節約スキルの共有</h2>
+        <p class="summary">エージェント／ツール利用時のトークン消費を抑えるスキルや工夫についての投稿。運用コスト意識の高まりを反映。</p>
+        <p class="why"><strong>なぜ重要：</strong> 長時間エージェント作業では、精度だけでなくトークン効率が実務の成否になる。</p>
+        <div class="card-foot">
+          <a class="source" href="https://x.com/rin_montblank/status/2104064112812859779" target="_blank" rel="noopener noreferrer">@rin_montblank ↗</a>
+          <div class="engagement">💬 X投稿　 トークン節約</div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="x">
+        <div class="card-top"><span class="badge x">X投稿</span><time class="date" datetime="2026-09-26">2026-09-26</time></div>
+        <h2>Alera：並列エージェントの話題</h2>
+        <p class="summary">並列エージェント実行に関する投稿。複数エージェントを同時に走らせるワークフローへの関心を示す。</p>
+        <p class="why"><strong>なぜ重要：</strong> 単一チャットから並列実行へ、実務者の関心が移っている兆候。</p>
+        <div class="card-foot">
+          <a class="source" href="https://x.com/leynier41/status/2103708170438770827" target="_blank" rel="noopener noreferrer">@leynier41 ↗</a>
+          <div class="engagement">💬 X投稿　 並列エージェント</div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-25">2026-09-25</time></div>
+        <h2>Microsoft Copilot Managed Runtimeをパブリックプレビュー</h2>
+        <p class="summary">Copilot Managed Runtimeがパブリックプレビュー。生成アプリをM365テナント内で実行し認証・ポリシー・監視を一元管理。</p>
+        <p class="why"><strong>なぜ重要：</strong> AI生成コードを企業ガバナンス付きランタイムへ接続。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.microsoft.com/en-us/copilot/blog/copilot-studio/build-where-you-want-run-with-confidence-now-microsoft-hosts-and-manages-the-code-created-by-copilot/" target="_blank" rel="noopener noreferrer">Microsoft Copilot Blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-25">2026-09-25</time></div>
+        <h2>OpenAI vs Cursor：コーディネーター型エージェントの比較分析</h2>
+        <p class="summary">The New Stackが、OpenAIとCursorのコーディネーター／エージェント設計を比較分析。役割分担とオーケストレーションの違いに焦点。</p>
+        <p class="why"><strong>なぜ重要：</strong> 「単体コーディング」から「複数エージェント調整」へ、製品競争の軸が移っている。</p>
+        <div class="card-foot">
+          <a class="source" href="https://thenewstack.io/openai-cursor-coordinator-agents/" target="_blank" rel="noopener noreferrer">The New Stack ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="x">
+        <div class="card-top"><span class="badge x">X投稿</span><time class="date" datetime="2026-09-25">2026-09-25</time></div>
+        <h2>Wake：セッション履歴まわりの話題</h2>
+        <p class="summary">セッション履歴（Wake関連）についての投稿。過去コンテキストの再利用・再開に関する実践知の共有。</p>
+        <p class="why"><strong>なぜ重要：</strong> セッション継続性は、エージェント作業の中断・再開コストを左右する。</p>
+        <div class="card-foot">
+          <a class="source" href="https://x.com/t1gerxt1ger/status/2103261496658764165" target="_blank" rel="noopener noreferrer">@t1gerxt1ger ↗</a>
+          <div class="engagement">💬 X投稿　 セッション履歴</div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span><time class="date" datetime="2026-09-24">2026-09-24</time></div>
+        <h2>MT5 Build 6230 — AIがEA検証ループを支援</h2>
+        <p class="summary">AIがEA入力パラメータ取得→テスター準備、チャート上のEA起動削除、経済カレンダー取得まで自律実行可能に。</p>
+        <p class="why"><strong>なぜ重要：</strong> 検証ループをプラットフォーム内エージェントが担い始めた公式マイルストーン。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.metatrader5.com/ja/releasenotes/terminal/2470" target="_blank" rel="noopener noreferrer">MetaTrader 5 ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span><time class="date" datetime="2026-09-24">2026-09-24</time></div>
+        <h2>ASIC、AI取引のセーフガード強化と市場ルール簡素化</h2>
+        <p class="summary">豪ASICがAI取引のセーフガード強化と市場健全性ルールの合理化を発表（26-226MR）。アルゴ／AI取引の規制アップデート。</p>
+        <p class="why"><strong>なぜ重要：</strong> 規制当局が「AI取引」を明示的に扱い始め、コンプラ設計の前提が変わる。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.asic.gov.au/about-asic/news-centre/find-a-media-release/2026-releases/26-226mr-asic-strengthens-ai-trading-safeguards-and-streamlines-market-integrity-rules" target="_blank" rel="noopener noreferrer">ASIC ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="x">
+        <div class="card-top"><span class="badge x">X投稿</span><time class="date" datetime="2026-09-24">2026-09-24</time></div>
         <h2>ASICのアルゴ取引規制への言及</h2>
         <p class="summary">ASICのアルゴリズム／AI取引セーフガード強化に触れた投稿。規制ニュースの市場反応・共有。</p>
         <p class="why"><strong>なぜ重要：</strong> 規制リリースがクオンツ／アルゴ勢のタイムラインで即座に拡散されている。</p>
         <div class="card-foot">
           <a class="source" href="https://x.com/QfLearnQuant/status/2102779171843801437" target="_blank" rel="noopener noreferrer">@QfLearnQuant ↗</a>
-          <div class="engagement"><span>💬 X投稿</span><span>ASIC / アルゴ取引</span></div>
+          <div class="engagement">💬 X投稿　 ASIC / アルゴ取引</div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-23">2026-09-23</time></div>
+        <h2>Cursor Rollouts &amp; Security Review</h2>
+        <p class="summary">Teams／Enterprise向けにRollouts（PR→本番の健全性監視・回帰検知）とSecurity Review（PR脆弱性報告）を発表。</p>
+        <p class="why"><strong>なぜ重要：</strong> 出荷後工程の自律化で差別化。</p>
+        <div class="card-foot">
+          <a class="source" href="https://cursor.com/blog/rollouts-and-security-reviewer" target="_blank" rel="noopener noreferrer">Cursor Blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span><time class="date" datetime="2026-09-23">2026-09-23</time></div>
+        <h2>Coinbase、AIエージェント取引基盤に株式とマイクロペイメントを追加</h2>
+        <p class="summary">CoinbaseがAIエージェント向け取引プラットフォームに株式とマイクロペイメントを組み込んだと報じられた。エージェント経済圏の拡大。</p>
+        <p class="why"><strong>なぜ重要：</strong> エージェントが「売買＋少額決済」まで担う前提のインフラが出始めた。</p>
+        <div class="card-foot">
+          <a class="source" href="https://crypto-economy.com/coinbase-brings-stocks-and-micropayments-to-its-ai-agent-trading-platform/" target="_blank" rel="noopener noreferrer">Crypto Economy ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-21">2026-09-21</time></div>
+        <h2>Devin Cloudをターミナルから操作</h2>
+        <p class="summary">`devin --cloud`や`/cloud`でターミナルからDevin Cloudセッション開始・再開。`devin ssh`でクラウドVM接続。</p>
+        <p class="why"><strong>なぜ重要：</strong> ローカル対話とクラウド常駐エージェントを同じCLIで往復できる。</p>
+        <div class="card-foot">
+          <a class="source" href="https://devin.ai/blog/devin-cloud-in-your-terminal" target="_blank" rel="noopener noreferrer">Devin Blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-18">2026-09-18</time></div>
+        <h2>GitHub Copilot weekly releases（9月14日週）</h2>
+        <p class="summary">コードレビューが修正済みコメント自動解決、スマートなコミットメッセージ、シェルでビルド・テスト検証に対応。Liteレビューは複数エージェント結果を統合。</p>
+        <p class="why"><strong>なぜ重要：</strong> レビューが検証・修正・PR準備まで含むエージェント型フローへ。</p>
+        <div class="card-foot">
+          <a class="source" href="https://github.blog/changelog/2026-09-18-github-copilot-weekly-releases-september-14/" target="_blank" rel="noopener noreferrer">GitHub Changelog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-17">2026-09-17</time></div>
+        <h2>Claude Projects redesigned</h2>
+        <p class="summary">Claude CodeのProjectsが共有メモリを持つ長期ワークスペースへ刷新。コーディネーターが複数のクラウドClaude Codeスレッドへ分担し、各スレッドは独自ブランチで実装・テスト・PR。</p>
+        <p class="why"><strong>なぜ重要：</strong> 複数リポジトリ・長期タスクを単一会話から並列エージェントで管理できる。</p>
+        <div class="card-foot">
+          <a class="source" href="https://claude.com/blog/projects-redesigned" target="_blank" rel="noopener noreferrer">Claude Blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span><time class="date" datetime="2026-09-16">2026-09-16</time></div>
+        <h2>TradingView、MCPサーバーのパブリックベータを公開</h2>
+        <p class="summary">TradingViewがMCPサーバーのパブリックベータを開始。チャート／市場データをエージェントやIDEから呼び出す経路が広がる。</p>
+        <p class="why"><strong>なぜ重要：</strong> トレード分析ツールがエージェント連携の標準プロトコルに乗り始めた。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.tradingview.com/blog/en/tradingview-mcp-server-public-beta-60864/" target="_blank" rel="noopener noreferrer">TradingView Blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-14">2026-09-14</time></div>
+        <h2>Cline Desktop — オープンウェイトモデル向けアプリ</h2>
+        <p class="summary">オープンソースのデスクトップ版ベータ。複数エージェント並列、定期タスク、Claude CodeやCodexからの引き継ぎ対応。</p>
+        <p class="why"><strong>なぜ重要：</strong> IDE外で複数エージェントとオープンウェイトモデルを横断管理。</p>
+        <div class="card-foot">
+          <a class="source" href="https://cline.bot/blog/cline-desktop-an-open-source-app-for-open-weight-models" target="_blank" rel="noopener noreferrer">Cline Blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-10">2026-09-10</time></div>
+        <h2>OpenAI Agents APIがpublic beta</h2>
+        <p class="summary">CodexハーネスをAPI化したAgents APIがpublic beta。セッション管理はOpenAI、ツールと実行環境は開発者が指定。</p>
+        <p class="why"><strong>なぜ重要：</strong> 自律エージェントを自アプリに埋め込む公式プラットフォーム。</p>
+        <div class="card-foot">
+          <a class="source" href="https://developers.openai.com/api/docs/guides/agents-api/overview" target="_blank" rel="noopener noreferrer">OpenAI Developers ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-10">2026-09-10</time></div>
+        <h2>Cursor Projects — プロジェクト単位の文脈管理</h2>
+        <p class="summary">Cursorが「Projects」機能を紹介。リポジトリや作業単位で文脈をまとめ、エージェント／補助機能の精度を上げる方向性。</p>
+        <p class="why"><strong>なぜ重要：</strong> IDE側の「プロジェクト境界」が、長期エージェント作業の品質を左右する。</p>
+        <div class="card-foot">
+          <a class="source" href="https://cursor.com/blog/projects" target="_blank" rel="noopener noreferrer">Cursor Blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-09">2026-09-09</time></div>
+        <h2>OpenCode v1.18.30（GPT-6 Astra）</h2>
+        <p class="summary">GPT-6向けAstraシステムプロンプト、Bedrock DeepSeek、Azure／OpenAI SDK互換、GitLab向けreasoning effortバリアント。</p>
+        <p class="why"><strong>なぜ重要：</strong> フロンティアモデル追従が速く、Claude／GPT／Bedrock横断ユーザーに直結。</p>
+        <div class="card-foot">
+          <a class="source" href="https://github.com/anomalyco/opencode/releases/tag/v1.18.30" target="_blank" rel="noopener noreferrer">GitHub Releases ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-09">2026-09-09</time></div>
+        <h2>Unity Plugin for Claude Code</h2>
+        <p class="summary">Unity公式プラグイン。Unity CLIスキルとゲーム開発固有知識をエージェントに提供。</p>
+        <p class="why"><strong>なぜ重要：</strong> 汎用エージェントがUnity公式作法で作業しやすくなる。</p>
+        <div class="card-foot">
+          <a class="source" href="https://unity.com/blog/unity-plugin-for-claude-code" target="_blank" rel="noopener noreferrer">Unity Blog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span><time class="date" datetime="2026-09-03">2026-09-03</time></div>
+        <h2>MT5 Build 6180 — EA評価・最適化をAIが支援</h2>
+        <p class="summary">AIがテスターレポート取得、最適化支援、ログ解析、インジ追加などを拡張。</p>
+        <p class="why"><strong>なぜ重要：</strong> EA評価・最適化・デバッグのエージェント化の入口。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.metatrader5.com/en/releasenotes/terminal/2464" target="_blank" rel="noopener noreferrer">MetaTrader 5 ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="agent">
+        <div class="card-top"><span class="badge agent">AIエージェント</span><time class="date" datetime="2026-09-01">2026-09-01〜09-28</time></div>
+        <h2>OpenCode Changelog（9月連続更新）</h2>
+        <p class="summary">9月にv1.18.26〜v1.18.33まで連続更新。Claude thinking耐性、Azure Entra、Copilot連携、プロバイダタイムアウトなど。</p>
+        <p class="why"><strong>なぜ重要：</strong> 週次で直るOSSエージェントとしての健全性を確認できる一次情報。</p>
+        <div class="card-foot">
+          <a class="source" href="https://opencode.ai/changelog" target="_blank" rel="noopener noreferrer">OpenCode Changelog ↗</a>
+        </div>
+      </article>
+
+      <article class="card" data-cat="trade">
+        <div class="card-top"><span class="badge trade">システムトレード</span><time class="date" datetime="2026-08-11">2026-08-11</time></div>
+        <h2>MetaTrader AIアシスタント、1兆トークン突破</h2>
+        <p class="summary">MCP／組み込みAI正式公開から約3週間で累計1兆トークン超。自前キーも可。</p>
+        <p class="why"><strong>なぜ重要：</strong> EA開発者コミュニティの実利用スケール。</p>
+        <div class="card-foot">
+          <a class="source" href="https://www.metatrader5.com/ja/news/2456" target="_blank" rel="noopener noreferrer">MetaTrader 5 ↗</a>
         </div>
       </article>
 
@@ -515,7 +717,7 @@
         all: "全件表示",
         ai: "AI",
         trade: "システムトレード",
-        cursor: "Cursor・Claude Code",
+        agent: "AIエージェント",
         x: "X投稿"
       };
 
@@ -528,7 +730,7 @@
         document.getElementById("c-all").textContent = "(" + countBy("all") + ")";
         document.getElementById("c-ai").textContent = "(" + countBy("ai") + ")";
         document.getElementById("c-trade").textContent = "(" + countBy("trade") + ")";
-        document.getElementById("c-cursor").textContent = "(" + countBy("cursor") + ")";
+        document.getElementById("c-agent").textContent = "(" + countBy("agent") + ")";
         document.getElementById("c-x").textContent = "(" + countBy("x") + ")";
         totalLabel.textContent = cards.length + " 件";
       }
